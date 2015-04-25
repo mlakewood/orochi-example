@@ -1,1 +1,2 @@
 requests==2.60
+orochi-python==0.1.0

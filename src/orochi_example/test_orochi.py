@@ -2,15 +2,12 @@ import unittest
 
 import requests
 
-from orochi_example.orochi_client import Orochi
+from orochi_python.orochi import Orochi
 
 class OrochiExampleTest(unittest.TestCase):
 
     def setUp(self):
-        self.jar = '/Users/underplank/projects/orochi-example/build/orochi-0.1.0.jar'
-        self.port = '8080'
-
-        self.orochi = Orochi(self.jar, self.port)
+        self.orochi = Orochi()
         self.orochi.start()
 
     def tearDown(self):
