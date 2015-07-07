@@ -10,7 +10,7 @@ class OrochiExampleTest(unittest.TestCase):
 
     def setUp(self):
         self.base_path =  os.path.join(os.path.dirname(__file__), "../../scripts/")
-        self.orochi = Orochi(path='/Users/mlakewood/Projects/orochi/target/orochi-0.1.1-SNAPSHOT-standalone.jar')
+        self.orochi = Orochi()
         self.orochi.start(timeout=10)
     
 
@@ -19,24 +19,24 @@ class OrochiExampleTest(unittest.TestCase):
          self.orochi.terminate()
         
 
-    # def test_pass_through_proxy(self):
-    #     name = "proxy-1"
-    #     backends = {"remote-addr": "127.0.0.1", "server-port": "8000"}
-    #     front_port = 8081
-    #     command = {"setup": self.base_path + "setup.sh",
-    #                "command": self.base_path + "command.sh 8000 " + self.base_path,
-    #                "started-check": self.base_path + "../venv/bin/python " + self.base_path + "started-check.py http://127.0.0.1:8000/README.md",
-    #                "teardown": self.base_path + "teardown.sh 8000"}
+    def test_pass_through_proxy(self):
+        name = "proxy-1"
+        backends = {"remote-addr": "127.0.0.1", "server-port": "8000"}
+        front_port = 8081
+        command = {"setup": self.base_path + "setup.sh",
+                   "command": self.base_path + "command.sh 8000 " + self.base_path,
+                   "started-check": self.base_path + "../venv/bin/python " + self.base_path + "started-check.py http://127.0.0.1:8000/README.md",
+                   "teardown": self.base_path + "teardown.sh 8000"}
 
-    #     self.orochi.add_pass_through_proxy(name, backends, front_port, command)
+        self.orochi.add_pass_through_proxy(name, backends, front_port, command)
         
-    #     res = requests.get('http://127.0.0.1:{}/README.md'.format(front_port))
-    #     self.assertEqual(res.status_code, 200)
+        res = requests.get('http://127.0.0.1:{}/README.md'.format(front_port))
+        self.assertEqual(res.status_code, 200)
 
-    #     proxy = self.orochi.get_proxy(name)
-    #     req = proxy['actions']
-    #     self.assertEqual(len(req), 3)
-    #     self.assertEqual(req[2]['body'][:8], '# orochi')
+        proxy = self.orochi.get_proxy(name)
+        req = proxy['actions']
+        self.assertEqual(len(req), 3)
+        self.assertEqual(req[2]['body'][:8], '# orochi')
 
     def test_mock_proxy(self):
         name = "proxy-1"
@@ -85,7 +85,7 @@ class OrochiExampleTest(unittest.TestCase):
 
         wh_proxy = self.orochi.get_proxy(wh_name)
         wh_req = wh_proxy['actions']
-        import ipdb; ipdb.set_trace()
+
         self.assertEqual(len(wh_req), 4)
         self.assertEqual(wh_req[3]['body'], 'canned')
 
