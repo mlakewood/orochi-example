@@ -1,2 +1,2 @@
-requests==2.60
+requests==2.6.0
 orochi-python==0.1.0
